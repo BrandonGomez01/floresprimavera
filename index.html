@@ -17,29 +17,24 @@ input{margin-top:20px;background:#111;border:1px solid #333;color:white;padding:
 #escena{position:fixed;inset:0;background:#000;display:none;z-index:50}
 #escena.show{display:block}
 .jardin{position:absolute;inset:0;transition:opacity .8s}
-.pasto{position:absolute;bottom:0;left:0;right:0;height:90px;background:#0f2e0f}
-.flower{position:absolute;bottom:0;transition:transform .6s}
+.pasto{position:absolute;bottom:0;left:0;right:0;height:90px;background:#0f2e0f;transition:opacity .8s}
+.flower{position:absolute;bottom:0}
 .tallo{width:6px;background:#2e7d32;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
-.flower-head{position:absolute;width:62px;height:62px;left:50%;transform:translateX(-50%)}
-.petal{position:absolute;width:22px;height:34px;background:#ffeb3b;border-radius:50% 50% / 60% 60%;left:50%;top:50%;transform-origin:11px 22px}
-.center{position:absolute;width:18px;height:18px;background:#3e2723;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
-.leaf{position:absolute;width:36px;height:14px;background:#2e7d32;border-radius:0 100% 0 100%;left:7px}
+.flower-head{position:absolute;width:68px;height:68px;left:50%;transform:translateX(-50%)}
+.petal{position:absolute;width:24px;height:38px;background:#ffeb3b;border-radius:50% 50% / 60% 60%;left:50%;top:50%;transform-origin:12px 24px}
+.center{position:absolute;width:20px;height:20px;background:#3e2723;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.leaf{position:absolute;width:38px;height:16px;background:#2e7d32;border-radius:0 100% 0 100%;left:7px}
 .leaf.left{border-radius:100% 0 100% 0;right:7px;left:auto}
 
-.card{background:rgba(20,20,20,.96);border:1px solid rgba(255,235,59,.5);padding:22px 20px;border-radius:24px;width:90%;max-width:380px;color:#eee;box-shadow:0 0 80px black}
+.card{background:rgba(20,20,20,.96);border:1px solid rgba(255,235,59,.5);padding:28px 24px;border-radius:24px;width:90%;max-width:380px;color:#eee;box-shadow:0 0 80px black}
 #mensajeFinal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;display:none;transition:all .7s ease}
-#mensajeFinal.mini{top:18px;transform:translateX(-50%) scale(.85);padding:12px 14px;max-width:320px}
-#contador{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;z-index:9998;background:rgba(0,0,0,.75);border:1px solid #ffeb3b;color:#ffeb3b;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;display:none}
+#mensajeFinal.mini{top:18px;transform:translateX(-50%) scale(.88);padding:14px 16px;max-width:340px}
+#contador{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:9998;background:rgba(0,0,0,.75);border:1px solid #ffeb3b;color:#ffeb3b;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;display:none;white-space:nowrap}
 #contador.show{display:block}
-#acciones{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;display:none;gap:8px}
-#acciones.show{display:flex}
-.smallBtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,235,59,.6);color:#ffeb3b;padding:8px 14px;border-radius:20px;font-size:12px;cursor:pointer;backdrop-filter:blur(10px)}
 
 .petalos-container{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 .petalo{position:absolute;top:-20px;width:12px;height:12px;background:#ffeb3b;border-radius:50% 0 50% 0;opacity:.8;animation:caer linear}
-.estrella{position:absolute;top:-20px;font-size:18px;animation:caerEstrella linear;pointer-events:none}
 @keyframes caer{to{transform:translateY(110vh) rotate(720deg) translateX(100px)}}
-@keyframes caerEstrella{to{transform:translateY(110vh) rotate(360deg)}}
 @keyframes crecer{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @keyframes bloom{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
 
@@ -63,25 +58,21 @@ input{margin-top:20px;background:#111;border:1px solid #333;color:white;padding:
 <div class="pantalla" id="p2">
 <div class="card">
 <h2 style="color:#ffeb3b">🌻 ¡Feliz Primavera! 🌻</h2>
-<p id="texto" style="margin-top:14px;font-size:16px;text-align:left"></p>
+<p id="texto" style="margin-top:14px;font-size:17px;text-align:left"></p>
 <button type="button" class="btn2" id="btnJardin" style="display:none" onclick="paso3()">Ver tu jardín infinito 🎵</button>
 </div>
 </div>
 
 <div id="escena">
 <div class="jardin" id="jardin"></div>
-<div class="pasto"></div>
+<div class="pasto" id="pasto"></div>
 <div class="petalos-container" id="petalos"></div>
 <canvas id="fireworks"></canvas>
 <div class="card" id="mensajeFinal">
 <h2 style="color:#ffeb3b">🌻 Para vos 🌻</h2>
-<p id="texto2" style="margin-top:10px;font-size:14px;text-align:left"></p>
+<p id="texto2" style="margin-top:10px;font-size:15px;text-align:left"></p>
 </div>
-<div id="contador">🌻 Flores: <span id="num">0</span> | Soplá para viento 💨</div>
-<div id="acciones">
-<button class="smallBtn" onclick="activarLluvia()">Lluvia de deseos 🌧️</button>
-<button class="smallBtn" onclick="formarNombre()">Tu nombre en flores 🌻</button>
-</div>
+<div id="contador">🌻 Flores plantadas para vos: <span id="num">0</span> 🌻</div>
 <button id="musicBtn" onclick="toggleMusic()">🎵</button>
 </div>
 
@@ -91,109 +82,124 @@ input{margin-top:20px;background:#111;border:1px solid #333;color:white;padding:
 </audio>
 
 <script>
-let playing=false, totalFlores=0, modo='flores', nombreFinal="", audioContext, analyser, soplando=false;
+let playing=false, totalFlores=0, modo='flores', intervaloShow;
+let jardin=document.getElementById('jardin'), pasto=document.getElementById('pasto');
+let nombreFinal="";
 
 function typeWriter(el, text, speed=25, cb){
  let i=0; el.innerHTML="";
- let t=setInterval(()=>{ el.innerHTML=text.substring(0,i)+'<span class="cursor"></span>'; i++; if(i>text.length){clearInterval(t); el.innerHTML=text; if(cb)cb();} if(navigator.vibrate && i%15===0) navigator.vibrate(10); }, speed);
+ let t=setInterval(()=>{
+   el.innerHTML=text.substring(0,i)+'<span class="cursor"></span>';
+   i++;
+   if(i>text.length){clearInterval(t); el.innerHTML=text; if(cb)cb();}
+   if(navigator.vibrate && i%15===0) navigator.vibrate(10);
+ }, speed);
 }
 
 function paso2(){
- let n=document.getElementById('nombre').value.trim(); if(n.length<2){document.getElementById('nombre').style.borderColor='red'; if(navigator.vibrate) navigator.vibrate([50,50,50]); return;}
- nombreFinal=n.toUpperCase(); if(navigator.vibrate) navigator.vibrate(100);
- let largo=`<b style="color:white;font-size:18px">${n},</b><br><br>que tengas un lindo día de la primavera, que hoy todo lo lindo florezca para vos...<br><br>Te merecés cada flor amarilla y mucho más. 💛<br><br>Te dejé 3 sorpresas abajo: tu nombre en flores, soplar y lluvia.`;
- document.getElementById('p1').style.display='none'; document.getElementById('p2').style.display='flex';
- typeWriter(document.getElementById('texto'), largo, 24, ()=>{document.getElementById('btnJardin').style.display='inline-block';});
+ let n=document.getElementById('nombre').value.trim();
+ if(n.length<2){document.getElementById('nombre').style.borderColor='red'; if(navigator.vibrate) navigator.vibrate([50,50,50]); return;}
+ nombreFinal=n;
+ if(navigator.vibrate) navigator.vibrate(100);
+ let largo=`<b style="color:white;font-size:20px">${n},</b><br><br>que tengas un lindo día de la primavera, que hoy todo lo lindo florezca para vos...<br><br>Te merecés cada flor amarilla de este jardín y mucho más.<br><br>Este jardín lo planté pensando en vos. 💛🌻`;
+ document.getElementById('p1').style.display='none';
+ document.getElementById('p2').style.display='flex';
+ typeWriter(document.getElementById('texto'), largo, 25, ()=>{document.getElementById('btnJardin').style.display='inline-block';});
 }
 
-function crearFlor(x, altura, delay, esNombre=false){
- const c=document.createElement('div'); c.className='flower'; c.style.left=x+'%'; c.style.bottom='0'; c.style.height=altura+'px'; if(!esNombre) c.style.animation=`crecer .7s ${delay}s both`; c.style.transformOrigin='bottom';
+function crearFlor(x, altura, delay){
+ const c=document.createElement('div'); c.className='flower'; c.style.left=x+'%'; c.style.bottom='0'; c.style.height=altura+'px'; c.style.animation=`crecer .7s ${delay}s both`; c.style.transformOrigin='bottom';
  const tallo=document.createElement('div'); tallo.className='tallo'; tallo.style.height=altura+'px';
  let l1=document.createElement('div'); l1.className='leaf left'; l1.style.bottom=(altura*0.35)+'px'; tallo.appendChild(l1);
  let l2=document.createElement('div'); l2.className='leaf'; l2.style.bottom=(altura*0.6)+'px'; tallo.appendChild(l2);
- const head=document.createElement('div'); head.className='flower-head'; head.style.bottom=(altura-10)+'px'; if(!esNombre) head.style.animation=`bloom .6s ${delay+0.5}s both`;
+ const head=document.createElement('div'); head.className='flower-head'; head.style.bottom=(altura-10)+'px'; head.style.animation=`bloom .6s ${delay+0.5}s both`;
  for(let i=0;i<6;i++){let p=document.createElement('div'); p.className='petal'; p.style.transform=`translate(-50%,-50%) rotate(${i*60}deg) translateY(-12px)`; head.appendChild(p);}
  let ce=document.createElement('div'); ce.className='center'; head.appendChild(ce);
  c.appendChild(head); c.appendChild(tallo); jardin.appendChild(c);
- if(!esNombre){ totalFlores++; document.getElementById('num').innerText=totalFlores; if(jardin.children.length>85) jardin.firstChild.remove(); }
- return c;
+ totalFlores++; document.getElementById('num').innerText=totalFlores;
+ if(jardin.children.length>80) jardin.firstChild.remove();
+ if(navigator.vibrate && totalFlores%10===0) navigator.vibrate(20);
 }
 
-function crearPetalo(){ const p=document.createElement('div'); p.className='petalo'; p.style.left=Math.random()*100+'vw'; p.style.animationDuration=(3+Math.random()*4)+'s'; document.getElementById('petalos').appendChild(p); setTimeout(()=>p.remove(),7000); }
+function crearPetalo(){
+ const p=document.createElement('div'); p.className='petalo';
+ p.style.left=Math.random()*100+'vw'; p.style.animationDuration=(3+Math.random()*4)+'s'; p.style.transform=`rotate(${Math.random()*360}deg)`;
+ p.style.width=(8+Math.random()*10)+'px'; p.style.height=p.style.width;
+ document.getElementById('petalos').appendChild(p);
+ setTimeout(()=>p.remove(), 7000);
+}
 
 function paso3(){
  document.getElementById('p2').style.display='none';
  let escena=document.getElementById('escena'); escena.classList.add('show'); escena.style.display='block';
- document.getElementById('contador').classList.add('show'); document.getElementById('acciones').classList.add('show');
+ document.getElementById('contador').classList.add('show');
  document.getElementById('musicBtn').classList.add('show'); document.getElementById('musicBtn').style.display='flex';
- document.getElementById('musica').volume=0.9; document.getElementById('musica').play().then(()=>playing=true).catch(()=>{});
+ document.getElementById('musica').volume=0.9;
+ document.getElementById('musica').play().then(()=>playing=true).catch(()=>{});
+
  let msg=document.getElementById('mensajeFinal'); msg.style.display='block';
- typeWriter(document.getElementById('texto2'), `${nombreFinal}, este es tu jardín infinito.<br><br>Probá los botones de abajo 👇 y soplá el celu 💨`, 26);
+ let texto2=`${nombreFinal}, este es tu jardín infinito.<br><br>Cada flor es un deseo lindo para vos, y no paran de crecer.<br><br>Gracias por existir 💛`;
+ typeWriter(document.getElementById('texto2'), texto2, 28);
+
  for(let i=0;i<35;i++) crearFlor(2+Math.random()*96, 110+Math.random()*220, Math.random()*1.2);
  setInterval(()=>{ if(modo==='flores') crearFlor(Math.random()*100, 110+Math.random()*220, 0)}, 250);
  setInterval(crearPetalo, 150);
  setTimeout(()=>msg.classList.add('mini'), 3500);
- iniciarAlternancia(); iniciarMicro();
+
+ iniciarAlternancia();
 }
 
-function toggleMusic(){ let a=document.getElementById('musica'); if(playing){a.pause(); musicBtn.innerText='🔇';}else{a.play(); musicBtn.innerText='🎵';} playing=!playing; }
+function toggleMusic(){
+ let a=document.getElementById('musica');
+ if(playing){a.pause(); musicBtn.innerText='🔇';}else{a.play(); musicBtn.innerText='🎵';}
+ playing=!playing;
+}
 
-// ALTERNANCIA 10s
-let canvas=document.getElementById('fireworks'), ctx=canvas.getContext('2d'); 
+// FUEGOS AMARILLOS
+let canvas=document.getElementById('fireworks'), ctx=canvas.getContext('2d');
 function resize(){canvas.width=innerWidth; canvas.height=innerHeight} window.addEventListener('resize',resize); resize();
 let particles=[], fireInterval=null;
-function firework(x,y){ for(let i=0;i<90;i++){ particles.push({x,y, vx:(Math.random()-0.5)*11, vy:(Math.random()-0.5)*11, life:100, color:`hsl(${42+Math.random()*16},100%,55%)`}) } }
-function loop(){ ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(0,0,canvas.width,canvas.height); particles.forEach((p,i)=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.07; p.life--; ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,2.2,0,Math.PI*2); ctx.fill(); if(p.life<=0) particles.splice(i,1); }); requestAnimationFrame(loop); } loop();
-function mostrarFlores(){ modo='flores'; document.getElementById('fireworks').classList.remove('show'); setTimeout(()=>document.getElementById('fireworks').style.display='none',800); jardin.style.opacity='1'; if(fireInterval){clearInterval(fireInterval); fireInterval=null;} }
-function mostrarFuegos(){ modo='fuegos'; let fw=document.getElementById('fireworks'); fw.style.display='block'; setTimeout(()=>fw.classList.add('show'),50); jardin.style.opacity='0.25'; fireInterval=setInterval(()=>{firework(Math.random()*canvas.width, Math.random()*canvas.height*0.6)}, 350); }
-function iniciarAlternancia(){ mostrarFlores(); setInterval(()=>{ if(modo==='flores') mostrarFuegos(); else mostrarFlores(); }, 10000); }
-
-// FORMAR NOMBRE
-function formarNombre(){
- jardin.innerHTML=''; mostrarFlores(); if(navigator.vibrate) navigator.vibrate([100,50,100]);
- let name=nombreFinal.substring(0,8); let startX=20; let step=60/(name.length);
- name.split('').forEach((letra, idx)=>{
-   let x=startX + idx*step + Math.random()*3;
-   for(let y=0;y<5;y++){ setTimeout(()=>{ crearFlor(x+Math.random()*2, 80+y*30, 0, true); }, y*120+idx*150); }
- });
- document.getElementById('contador').innerHTML=`🌻 Nombre formado: ${nombreFinal} 🌻`;
- setTimeout(()=>{ document.getElementById('contador').innerHTML=`🌻 Flores: <span id="num">${totalFlores}</span> | Soplá para viento 💨`; }, 6000);
-}
-
-// SOPLAR
-async function iniciarMicro(){
- try{
-  let stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  audioContext=new (window.AudioContext||window.webkitAudioContext)(); let source=audioContext.createMediaStreamSource(stream);
-  analyser=audioContext.createAnalyser(); analyser.fftSize=256; source.connect(analyser);
-  let data=new Uint8Array(analyser.frequencyBinCount);
-  setInterval(()=>{
-    analyser.getByteFrequencyData(data); let vol=data.reduce((a,b)=>a+b)/data.length;
-    if(vol>45 && !soplando){ soplando=true; efectoViento(); setTimeout(()=>soplando=false,1500); }
-  },200);
- }catch(e){ document.getElementById('contador').innerHTML=`🌻 Flores: <span id="num">${totalFlores}</span> 🌻`; }
-}
-function efectoViento(){
- if(navigator.vibrate) navigator.vibrate([50,30,50]);
- document.querySelectorAll('.flower').forEach(f=>{ f.style.transform=`rotate(${Math.random()*20-10}deg)`; setTimeout(()=>f.style.transform='rotate(0deg)',800); });
- for(let i=0;i<15;i++) crearPetalo();
- let petalos=document.querySelectorAll('.petalo'); petalos.forEach(p=>{ p.style.transform+=' translateX(200px)'; });
-}
-
-// LLUVIA DE DESEOS
-function activarLluvia(){
- if(navigator.vibrate) navigator.vibrate([100,50,200]);
- for(let i=0;i<80;i++){
-   setTimeout(()=>{
-     let e=document.createElement('div'); e.className='estrella';
-     e.innerText=['💛','🌟','🌻','✨','💫'][Math.floor(Math.random()*5)];
-     e.style.left=Math.random()*100+'vw'; e.style.animationDuration=(2+Math.random()*3)+'s';
-     document.getElementById('petalos').appendChild(e); setTimeout(()=>e.remove(),5000);
-   }, i*40);
+function firework(x,y){
+ if(navigator.vibrate) navigator.vibrate([30,30,80]);
+ for(let i=0;i<90;i++){
+   particles.push({x,y, vx:(Math.random()-0.5)*11, vy:(Math.random()-0.5)*11, life:100, color:`hsl(${42+Math.random()*16},100%,${50+Math.random()*20}%)`})
  }
- document.getElementById('mensajeFinal').classList.remove('mini'); 
- document.getElementById('mensajeFinal').innerHTML=`<h2 style="color:#ffeb3b">🌧️ Lluvia de deseos 🌧️</h2><p style="margin-top:10px">Cada estrellita es un deseo para vos, ${nombreFinal}.<br><br>Que todo lo lindo te pase hoy y siempre 💛</p>`;
- setTimeout(()=>{ document.getElementById('mensajeFinal').classList.add('mini'); document.getElementById('mensajeFinal').innerHTML=`<h2 style="color:#ffeb3b">🌻 Para vos 🌻</h2><p id="texto2" style="margin-top:10px;font-size:14px;text-align:left">${nombreFinal}, este es tu jardín infinito.<br><br>Probá los botones de abajo 👇</p>`; }, 6000);
+}
+function loop(){
+ ctx.fillStyle='rgba(0,0,0,0.25)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+ particles.forEach((p,i)=>{
+   p.x+=p.vx; p.y+=p.vy; p.vy+=0.07; p.life--;
+   ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,2.2,0,Math.PI*2); ctx.fill();
+   if(p.life<=0) particles.splice(i,1);
+ });
+ requestAnimationFrame(loop);
+} loop();
+
+function mostrarFlores(){
+ modo='flores';
+ document.getElementById('fireworks').classList.remove('show');
+ setTimeout(()=>document.getElementById('fireworks').style.display='none',800);
+ jardin.style.opacity='1'; pasto.style.opacity='1';
+ if(fireInterval){clearInterval(fireInterval); fireInterval=null;}
+ document.getElementById('contador').style.borderColor='#ffeb3b';
+ document.getElementById('contador').style.color='#ffeb3b';
+}
+
+function mostrarFuegos(){
+ modo='fuegos';
+ let fw=document.getElementById('fireworks'); fw.style.display='block'; setTimeout(()=>fw.classList.add('show'),50);
+ jardin.style.opacity='0.25'; pasto.style.opacity='0.25';
+ if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+ fireInterval=setInterval(()=>{firework(Math.random()*canvas.width, Math.random()*canvas.height*0.6)}, 350);
+ setTimeout(()=>firework(canvas.width/2, canvas.height*0.4),200);
+}
+
+function iniciarAlternancia(){
+ mostrarFlores();
+ setInterval(()=>{
+   if(modo==='flores') mostrarFuegos();
+   else mostrarFlores();
+ }, 10000);
 }
 </script>
 </body>
