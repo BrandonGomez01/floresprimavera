@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para vos 💛</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;font-family:'Segoe UI',sans-serif;overflow:hidden;height:100vh}
+.pantalla{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;z-index:100}
+#p2{display:none;z-index:90}
+h1{color:white;font-size:2.4rem} h1 span{color:#ffeb3b}
+input{margin-top:20px;background:#111;border:1px solid #333;color:white;padding:16px 24px;border-radius:40px;width:100%;max-width:300px;text-align:center;font-size:18px;outline:none}
+.btn{margin-top:18px;background:#ffeb3b;color:#000;border:none;padding:16px 42px;border-radius:40px;font-weight:900;cursor:pointer}
+.btn2{margin-top:20px;background:#ffeb3b;color:#000;border:none;padding:14px 28px;border-radius:40px;font-weight:700;cursor:pointer}
+
+#escena{position:fixed;inset:0;background:#000;display:none;z-index:50}
+#escena.show{display:block}
+.jardin{position:absolute;inset:0}
+.pasto{position:absolute;bottom:0;left:0;right:0;height:90px;background:#0f2e0f}
+.flower{position:absolute;bottom:0}
+.tallo{width:6px;background:#2e7d32;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+.flower-head{position:absolute;width:68px;height:68px;left:50%;transform:translateX(-50%)}
+.petal{position:absolute;width:24px;height:38px;background:#ffeb3b;border-radius:50% 50% / 60% 60%;left:50%;top:50%;transform-origin:12px 24px}
+.center{position:absolute;width:20px;height:20px;background:#3e2723;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.leaf{position:absolute;width:38px;height:16px;background:#2e7d32;border-radius:0 100% 0 100%;left:7px}
+.leaf.left{border-radius:100% 0 100% 0;right:7px;left:auto}
+
+.card{background:rgba(20,20,20,.96);border:1px solid rgba(255,235,59,.5);padding:28px 24px;border-radius:24px;width:90%;max-width:380px;color:#eee;box-shadow:0 0 80px black}
+#mensajeFinal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;display:none;transition:all .7s ease;max-height:85vh;overflow-y:auto}
+#mensajeFinal.mini{top:18px;transform:translateX(-50%) scale(.88);padding:14px 16px;max-width:340px}
+#contador{position:fixed;left:16px;bottom:16px;z-index:9998;background:rgba(0,0,0,.7);border:1px solid #ffeb3b;color:#ffeb3b;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;display:none}
+#contador.show{display:block}
+
+.petalos-container{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.petalo{position:absolute;top:-20px;width:12px;height:12px;background:#ffeb3b;border-radius:50% 0 50% 0;opacity:.8;animation:caer linear}
+
+@keyframes caer{to{transform:translateY(110vh) rotate(720deg) translateX(100px)}}
+@keyframes crecer{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes bloom{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
+
+#fireworks{position:fixed;inset:0;z-index:9997;pointer-events:none;display:none}
+#fireworks.show{display:block}
+#finalBtn{display:none;margin-top:16px;background:white;color:black;padding:12px 24px;border-radius:40px;border:none;font-weight:800;cursor:pointer}
+#musicBtn{position:fixed;top:16px;right:16px;z-index:10000;background:#111;border:1px solid #ffeb3b;color:#ffeb3b;width:46px;height:46px;border-radius:50%;display:none;cursor:pointer}
+#musicBtn.show{display:flex;align-items:center;justify-content:center}
+.cursor{border-right:2px solid #ffeb3b;animation:blink 1s infinite}
+@keyframes blink{50%{border-color:transparent}}
+</style>
+</head>
+<body>
+
+<div class="pantalla" id="p1">
+<div style="font-size:56px">🎁</div>
+<h1>Tengo un<br><span>regalo</span> para vos</h1>
+<input id="nombre" placeholder="Tu nombre..." autocomplete="off">
+<button type="button" class="btn" onclick="paso2()">ABRIR 💛</button>
+</div>
+
+<div class="pantalla" id="p2">
+<div class="card">
+<h2 style="color:#ffeb3b">🌻 ¡Feliz Primavera! 🌻</h2>
+<p id="texto" style="margin-top:14px;font-size:17px;text-align:left"></p>
+<button type="button" class="btn2" id="btnJardin" style="display:none" onclick="paso3()">Ver tu jardín infinito 🎵</button>
+</div>
+</div>
+
+<div id="escena">
+<div class="jardin" id="jardin"></div>
+<div class="pasto"></div>
+<div class="petalos-container" id="petalos"></div>
+<canvas id="fireworks"></canvas>
+<div class="card" id="mensajeFinal">
+<h2 style="color:#ffeb3b">🌻 Para vos 🌻</h2>
+<p id="texto2" style="margin-top:10px;font-size:15px;text-align:left"></p>
+<button id="finalBtn" onclick="lanzarFinal()">Tocá acá 💥</button>
+</div>
+<div id="contador">🌻 Flores plantadas para vos: <span id="num">0</span></div>
+<button id="musicBtn" onclick="toggleMusic()">🎵</button>
+</div>
+
+<audio id="musica" loop preload="auto" playsinline>
+  <source src="./flores.mp3" type="audio/mpeg">
+  <source src="https://files.catbox.moe/1r5k1z.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let playing=false, totalFlores=0;
+let jardin=document.getElementById('jardin');
+let nombreFinal="";
+let textoLargo="";
+
+function typeWriter(element, text, speed=30, cb){
+ let i=0; element.innerHTML="";
+ let timer=setInterval(()=>{
+   element.innerHTML=text.substring(0,i)+'<span class="cursor"></span>';
+   i++;
+   if(i>text.length){clearInterval(timer); element.innerHTML=text; if(cb)cb();}
+   if(navigator.vibrate && i%15===0) navigator.vibrate(10);
+ }, speed);
+}
+
+function paso2(){
+ let n=document.getElementById('nombre').value.trim();
+ if(n.length<2){document.getElementById('nombre').style.borderColor='red'; if(navigator.vibrate) navigator.vibrate([50,50,50]); return;}
+ nombreFinal=n;
+ if(navigator.vibrate) navigator.vibrate(100);
+ textoLargo=`<b style="color:white;font-size:20px">${n},</b><br><br>que tengas un lindo día de la primavera, que hoy todo lo lindo florezca para vos...<br><br>Te merecés cada flor amarilla de este jardín y mucho más.<br><br>Este jardín lo planté pensando en vos. Cada flor es un deseo lindo. 💛🌻`;
+
+ document.getElementById('p1').style.display='none';
+ document.getElementById('p2').style.display='flex';
+ typeWriter(document.getElementById('texto'), textoLargo, 25, ()=>{
+   document.getElementById('btnJardin').style.display='inline-block';
+ });
+}
+
+function crearFlor(x, altura, delay){
+ const c=document.createElement('div'); 
+ c.className='flower'; c.style.left=x+'%'; c.style.bottom='0'; c.style.height=altura+'px'; c.style.animation=`crecer .7s ${delay}s both`; c.style.transformOrigin='bottom';
+ const tallo=document.createElement('div'); tallo.className='tallo'; tallo.style.height=altura+'px';
+ let l1=document.createElement('div'); l1.className='leaf left'; l1.style.bottom=(altura*0.35)+'px'; tallo.appendChild(l1);
+ let l2=document.createElement('div'); l2.className='leaf'; l2.style.bottom=(altura*0.6)+'px'; tallo.appendChild(l2);
+ const head=document.createElement('div'); head.className='flower-head'; head.style.bottom=(altura-10)+'px'; head.style.animation=`bloom .6s ${delay+0.5}s both`;
+ for(let i=0;i<6;i++){let p=document.createElement('div'); p.className='petal'; p.style.transform=`translate(-50%,-50%) rotate(${i*60}deg) translateY(-12px)`; head.appendChild(p);}
+ let ce=document.createElement('div'); ce.className='center'; head.appendChild(ce);
+ c.appendChild(head); c.appendChild(tallo); jardin.appendChild(c);
+ totalFlores++; document.getElementById('num').innerText=totalFlores;
+ if(jardin.children.length>70) jardin.firstChild.remove();
+ if(navigator.vibrate && totalFlores%10===0) navigator.vibrate(20);
+}
+
+function crearPetalo(){
+ const p=document.createElement('div'); p.className='petalo';
+ p.style.left=Math.random()*100+'vw';
+ p.style.animationDuration=(3+Math.random()*4)+'s';
+ p.style.transform=`rotate(${Math.random()*360}deg)`;
+ p.style.width=(8+Math.random()*10)+'px'; p.style.height=p.style.width;
+ document.getElementById('petalos').appendChild(p);
+ setTimeout(()=>p.remove(), 7000);
+}
+
+function paso3(){
+ document.getElementById('p2').style.display='none';
+ let escena=document.getElementById('escena');
+ escena.classList.add('show'); escena.style.display='block';
+ document.getElementById('contador').classList.add('show');
+ document.getElementById('musicBtn').classList.add('show');
+ document.getElementById('musicBtn').style.display='flex';
+
+ let audio=document.getElementById('musica');
+ audio.volume=0.9;
+ audio.play().then(()=>{playing=true;}).catch(()=>{});
+
+ let msg=document.getElementById('mensajeFinal'); msg.style.display='block';
+ let texto2=`${nombreFinal}, este es tu jardín infinito.<br><br>Ya van <b style="color:#ffeb3b">${totalFlores} flores</b> y no paran de crecer, como lo lindo que te deseo.<br><br>Gracias por existir 💛`;
+ typeWriter(document.getElementById('texto2'), texto2, 28, ()=>{
+   document.getElementById('finalBtn').style.display='inline-block';
+   if(navigator.vibrate) navigator.vibrate([100,50,100]);
+ });
+
+ for(let i=0;i<30;i++) crearFlor(2+Math.random()*96, 110+Math.random()*220, Math.random()*1.2);
+ setInterval(()=>crearFlor(Math.random()*100, 110+Math.random()*220, 0), 280);
+ setInterval(crearPetalo, 180);
+
+ setTimeout(()=>{msg.classList.add('mini');}, 3500);
+ setTimeout(()=>{lanzarFinal();}, 15000);
+}
+
+function toggleMusic(){
+ let a=document.getElementById('musica');
+ if(playing){a.pause(); musicBtn.innerText='🔇';}else{a.play(); musicBtn.innerText='🎵';}
+ playing=!playing;
+}
+
+// FUEGOS ARTIFICIALES AMARILLOS
+let canvas=document.getElementById('fireworks'), ctx=canvas.getContext('2d');
+function resize(){canvas.width=innerWidth; canvas.height=innerHeight} window.addEventListener('resize',resize); resize();
+let particles=[];
+function firework(x,y){
+ if(navigator.vibrate) navigator.vibrate([30,30,80]);
+ for(let i=0;i<80;i++){
+   particles.push({x,y, vx:(Math.random()-0.5)*10, vy:(Math.random()-0.5)*10, life:100, color:`hsl(${45+Math.random()*15},100%,${50+Math.random()*20}%)`})
+ }
+}
+function loop(){
+ ctx.fillStyle='rgba(0,0,0,0.2)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+ particles.forEach((p,i)=>{
+   p.x+=p.vx; p.y+=p.vy; p.vy+=0.07; p.life--;
+   ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+   if(p.life<=0) particles.splice(i,1);
+ });
+ requestAnimationFrame(loop);
+} loop();
+
+function lanzarFinal(){
+ document.getElementById('fireworks').classList.add('show'); document.getElementById('fireworks').style.display='block';
+ document.getElementById('mensajeFinal').style.display='none';
+ document.getElementById('contador').innerHTML="💛 Sos increíble 💛";
+ if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+ let int=setInterval(()=>{firework(Math.random()*canvas.width, Math.random()*canvas.height*0.6)}, 400);
+ setTimeout(()=>{clearInterval(int); document.getElementById('mensajeFinal').style.display='block'; document.getElementById('mensajeFinal').classList.remove('mini'); document.getElementById('mensajeFinal').innerHTML=`<h2 style="color:#ffeb3b">💥 ¡BOOM! 💛</h2><p style="margin-top:12px">Todo este show es para vos, ${nombreFinal}.<br><br>Feliz primavera, reina de las flores amarillas 🌻</p>`;}, 5000);
+}
+</script>
+</body>
+</html>
